@@ -1,0 +1,284 @@
+/*
+ * Public home-service portal (BR-SRV-009): the administrator's settings page (link + QR + rules in
+ * one large card) and the customer-facing page's extras.
+ */
+
+/* ============ Settings: one card, sections separated by rules ============ */
+.portal-settings {
+  padding: 0;
+}
+
+.portal-section {
+  padding: var(--sp-6);
+}
+
+.portal-section + .portal-section {
+  border-top: 1px solid var(--c-border);
+}
+
+.portal-section-heading {
+  margin-bottom: var(--sp-4);
+}
+
+.portal-section-heading h2 {
+  margin: 0;
+  font-size: var(--fs-lg);
+}
+
+/* The on/off switch leads the card: tinted like other highlighted zones. */
+.portal-status {
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: linear-gradient(180deg, var(--c-primary-soft), color-mix(in srgb, var(--c-primary-soft) 25%, var(--c-surface)));
+}
+
+.portal-status .switch-row {
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--c-primary) 20%, var(--c-border));
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+}
+
+.portal-settings > .alert {
+  margin: 0 var(--sp-6) var(--sp-4);
+}
+
+.portal-settings > .submit-bar {
+  margin: 0 var(--sp-4) var(--sp-4);
+}
+
+.portal-rules {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.portal-rules .form-grid {
+  margin: 0;
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--c-border);
+}
+
+/* ============ Link + QR ============ */
+.portal-share {
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: minmax(0, 1.6fr) minmax(15rem, 1fr);
+  align-items: start;
+}
+
+.share-card {
+  display: grid;
+  gap: var(--sp-3);
+  min-width: 0;
+  padding: var(--sp-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-2);
+}
+
+.share-card h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  font-size: var(--fs-md);
+}
+
+.share-card h3 .icon {
+  color: var(--c-accent);
+}
+
+.share-card .field-hint,
+.share-card .field-error {
+  margin: 0;
+}
+
+.share-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* The full URL is shown, not edited: selectable text in an input-like box. */
+.share-url {
+  flex: 1 1 16rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: var(--fs-sm);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.slug-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px dashed var(--c-border-strong);
+}
+
+.slug-summary p {
+  margin: 0;
+}
+
+.slug-summary .alert,
+.slug-summary .field-hint {
+  flex-basis: 100%;
+}
+
+.slug-editor {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--c-warn) 40%, var(--c-border));
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+}
+
+.slug-editor .form-section-title,
+.slug-editor .form-actions {
+  margin: 0;
+}
+
+.slug-editor .field > .button {
+  justify-self: start;
+}
+
+.qr-card {
+  justify-items: center;
+  text-align: center;
+}
+
+.qr-card h3 {
+  justify-self: stretch;
+}
+
+/* Scanners need black on white with the quiet zone, whatever the palette. */
+.qr-frame {
+  width: min(100%, 14rem);
+  padding: var(--sp-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  background: #ffffff;
+  box-shadow: var(--sh-sm);
+}
+
+.qr-code {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.qr-caption {
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--c-text-2);
+}
+
+.qr-card .share-actions {
+  justify-content: center;
+}
+
+.service-types {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.service-types .chip-list {
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 899.98px) {
+  /* Phones and tablets: link first, the QR below it, centered. */
+  .portal-share {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .portal-section {
+    padding: var(--sp-5) var(--sp-4);
+  }
+
+  .portal-status {
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+
+  .portal-settings > .alert {
+    margin: 0 var(--sp-4) var(--sp-4);
+  }
+
+  .portal-settings > .submit-bar {
+    margin: 0 var(--sp-2) var(--sp-2);
+  }
+
+  .share-card {
+    padding: var(--sp-4);
+  }
+
+  .portal-rules .form-grid {
+    padding-left: var(--sp-3);
+  }
+}
+
+@media (max-width: 479.98px) {
+  .share-actions {
+    width: 100%;
+  }
+
+  .share-actions .button {
+    flex: 1 1 auto;
+  }
+}
+
+/* ============ Customer-facing page ============ */
+/* Messages written by the business: plain text, line breaks kept. */
+.portal-message {
+  margin: 0;
+  white-space: pre-line;
+  color: var(--c-text-2);
+}
+
+.public-paused {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  text-align: center;
+}
+
+.public-paused h1,
+.public-paused p {
+  margin: 0;
+}
+
+/* Nothing to save: the bar rests at the end of the card instead of covering the screen. */
+.portal-settings > .submit-bar.is-idle {
+  position: static;
+  box-shadow: none;
+  background: var(--c-surface-2);
+}
+
+/* Slugs can be 60 characters: let the paths wrap instead of widening the card on phones. */
+.slug-summary .mono,
+.slug-editor .field-hint {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

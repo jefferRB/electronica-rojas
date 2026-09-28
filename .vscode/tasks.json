@@ -1,0 +1,110 @@
+{
+  // Development tasks. Run with Ctrl+Shift+P > "Tasks: Run Task".
+  // "start all" is the default build task (Ctrl+Shift+B).
+  // No credentials here: the backend reads them from the git-ignored .env through
+  // scripts/start-backend.ps1, which never prints them.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start all",
+      "detail": "PostgreSQL (Compose) + backend + React dev server",
+      "dependsOn": ["backend", "frontend"],
+      "dependsOrder": "parallel",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "database up",
+      "detail": "docker compose up -d --wait db (waits for the healthcheck)",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "up", "-d", "--wait", "db"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "database stop",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "stop", "db"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "backend",
+      "detail": "Spring Boot on :8080 with DB_* derived from .env",
+      "dependsOn": "database up",
+      "type": "process",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/start-backend.ps1"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "backend",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activesBegin": true,
+          "beginsPattern": "Backend ->",
+          "endsPattern": "Started ElectronicaRojasApplication|APPLICATION FAILED TO START|BUILD FAILURE"
+        }
+      },
+      "presentation": { "panel": "dedicated", "group": "dev" }
+    },
+    {
+      "label": "backend (debug port 5005)",
+      "detail": "Same as backend, then use the 'Attach to backend' launch configuration",
+      "dependsOn": "database up",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/start-backend.ps1",
+        "-EnableDebugger"
+      ],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "backend",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activesBegin": true,
+          "beginsPattern": "Backend ->",
+          "endsPattern": "Started ElectronicaRojasApplication|APPLICATION FAILED TO START|BUILD FAILURE"
+        }
+      },
+      "presentation": { "panel": "dedicated", "group": "dev" }
+    },
+    {
+      "label": "frontend",
+      "detail": "Vite dev server on :5173 (proxies /api to :8080)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "frontend",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": { "activesBegin": true, "beginsPattern": "VITE", "endsPattern": "Local:" }
+      },
+      "presentation": { "panel": "dedicated", "group": "dev" }
+    },
+    {
+      "label": "backend tests",
+      "detail": "All tests, Testcontainers needs Docker Engine",
+      "type": "shell",
+      "command": ".\\mvnw.cmd -B test",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "frontend lint + test + contrast + build",
+      "type": "shell",
+      "command": "npm run lint; if ($?) { npm test }; if ($?) { npm run check:contrast }; if ($?) { npm run build }",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}

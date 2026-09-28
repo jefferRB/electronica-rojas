@@ -1,0 +1,55 @@
+# ---- Secrets and local environment (SEC-005) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# ---- Database dumps and backups ----
+*.dump
+*.backup
+*.bak
+*.sql.gz
+
+# ---- Java / Maven ----
+target/
+.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+hs_err_pid*
+
+# ---- Node / React / Vite ----
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+coverage/
+npm-debug.log*
+
+# ---- IDEs and editors ----
+.vscode/*
+# Shared, credential-free editor config (tasks read secrets only through scripts/start-backend.ps1)
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.sts4-cache/
+
+# ---- Operating system ----
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ---- Office lock files ----
+~$*

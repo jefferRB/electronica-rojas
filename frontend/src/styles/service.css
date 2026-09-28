@@ -1,0 +1,444 @@
+/* Home service: request detail, visits, agenda and technician schedules. */
+
+/* ============ Visits ============ */
+.visit-block {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid var(--c-border);
+  border-left: 4px solid var(--c-ok);
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+}
+
+.visit-block.visit-proposed {
+  border-left-style: dashed;
+  border-left-color: var(--c-warn);
+  background: color-mix(in srgb, var(--c-warn-soft) 35%, var(--c-surface));
+}
+
+.visit-block.visit-in_progress {
+  border-left-color: var(--c-info);
+}
+
+.visit-block.visit-completed,
+.visit-block.visit-cancelled {
+  border-left-color: var(--c-text-3);
+  background: var(--c-surface-2);
+}
+
+.visit-card {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.visit-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-3);
+}
+
+.visit-when {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-weight: var(--fw-semibold);
+}
+
+.visit-when .icon {
+  color: var(--c-text-2);
+}
+
+.slot-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: var(--sp-2) 0;
+}
+
+.slot-list .button {
+  min-width: 4.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============ Agenda ============ */
+/* The agenda is a panel: date navigation, filters and the calendar are bands of one card. */
+.agenda-card {
+  display: grid;
+}
+
+.agenda-card > .agenda-filters {
+  justify-content: flex-start;
+}
+
+.agenda-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.agenda-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.agenda-range {
+  margin: 0 0 0 var(--sp-2);
+  font-size: var(--fs-md);
+}
+
+.agenda-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--sp-3) var(--sp-4);
+  padding-bottom: var(--sp-5);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.agenda-filters .field {
+  flex: 1 1 13rem;
+  max-width: 18rem;
+}
+
+.agenda-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0 0 0 auto;
+  padding: 0 0 0.6rem;
+  list-style: none;
+  font-size: var(--fs-xs);
+  color: var(--c-text-2);
+}
+
+.agenda-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.agenda-legend li::before {
+  content: '';
+  width: 1.1rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  border: 1px solid var(--c-border);
+  border-left: 4px solid var(--legend);
+  background: var(--c-surface);
+}
+
+.legend-proposed {
+  --legend: var(--c-warn);
+}
+
+.legend-proposed::before {
+  border-left-style: dashed !important;
+}
+
+.legend-confirmed {
+  --legend: var(--c-ok);
+}
+
+.legend-in_progress {
+  --legend: var(--c-info);
+}
+
+.legend-completed {
+  --legend: var(--c-text-3);
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+.day-list {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.agenda-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+  min-height: 11rem;
+  padding: var(--sp-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-2);
+}
+
+.day-list .agenda-day {
+  min-height: 0;
+  padding: var(--sp-4);
+}
+
+.agenda-day-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: var(--sp-1) var(--sp-1) var(--sp-2);
+  border-bottom: 1px solid var(--c-border);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+
+.agenda-day-number {
+  font-size: var(--fs-lg);
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-day-title .badge {
+  margin-left: auto;
+}
+
+.agenda-today {
+  border-color: color-mix(in srgb, var(--c-primary) 50%, var(--c-border));
+  background: color-mix(in srgb, var(--c-primary-soft) 55%, var(--c-surface));
+}
+
+.agenda-today .agenda-day-number {
+  color: var(--c-primary-soft-text);
+}
+
+.agenda-none {
+  margin: var(--sp-1);
+  font-size: var(--fs-xs);
+  color: var(--c-text-3);
+}
+
+.agenda-visit {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  border-left: 4px solid var(--c-ok);
+  background: var(--c-surface);
+  color: var(--c-text);
+  text-decoration: none;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-snug);
+  box-shadow: var(--sh-xs);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+}
+
+.agenda-visit:hover,
+.agenda-visit:focus-visible {
+  color: var(--c-text);
+  border-color: var(--c-border-control);
+  box-shadow: var(--sh-md);
+}
+
+.agenda-visit > span {
+  min-width: 0;
+}
+
+.agenda-visit .badge {
+  justify-self: start;
+  max-width: 100%;
+  white-space: normal;
+  margin-top: 0.25rem;
+  font-size: var(--fs-2xs);
+}
+
+.agenda-proposed {
+  border-left-style: dashed;
+  border-left-color: var(--c-warn);
+  background: color-mix(in srgb, var(--c-warn-soft) 40%, var(--c-surface));
+}
+
+.agenda-in_progress {
+  border-left-color: var(--c-info);
+}
+
+.agenda-completed {
+  border-left-color: var(--c-text-3);
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
+}
+
+.agenda-time {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-what {
+  font-weight: var(--fw-semibold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.agenda-where,
+.agenda-who {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--c-text-2);
+}
+
+.agenda-who .avatar-sm {
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.55rem;
+}
+
+/* Day view and narrow screens: roomy rows instead of cramped columns. */
+.day-list .agenda-visit {
+  grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-sm);
+}
+
+.day-list .agenda-time {
+  grid-row: 1 / span 3;
+  font-size: var(--fs-md);
+}
+
+.day-list .agenda-visit .badge {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  margin: 0;
+  font-size: var(--fs-xs);
+}
+
+@media (max-width: 1099.98px) {
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .agenda-day {
+    min-height: 0;
+    padding: var(--sp-3);
+  }
+
+  /* A week on a narrow screen is a vertical agenda: empty days shrink to one line. */
+  .week-grid .agenda-empty {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-2) var(--sp-3);
+  }
+
+  .week-grid .agenda-empty .agenda-day-title {
+    border: 0;
+    padding: 0;
+  }
+
+  .week-grid .agenda-visit {
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--sp-3);
+    padding: var(--sp-3);
+    font-size: var(--fs-sm);
+  }
+
+  .week-grid .agenda-time {
+    grid-row: 1 / span 3;
+  }
+
+  .week-grid .agenda-visit .badge {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+}
+
+@media (max-width: 599.98px) {
+  .agenda-legend {
+    margin-left: 0;
+  }
+
+  .agenda-filters .field {
+    max-width: none;
+  }
+
+  .week-grid .agenda-visit,
+  .day-list .agenda-visit {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .week-grid .agenda-time,
+  .day-list .agenda-time,
+  .week-grid .agenda-visit .badge,
+  .day-list .agenda-visit .badge {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .week-grid .agenda-visit .badge,
+  .day-list .agenda-visit .badge {
+    margin-top: var(--sp-1);
+  }
+
+  .agenda-range {
+    flex-basis: 100%;
+    margin: var(--sp-1) 0 0;
+  }
+
+  .agenda-toolbar .segmented {
+    width: 100%;
+  }
+}
+
+/* ============ Technician schedules ============ */
+.shift-row {
+  border: 0;
+  border-bottom: 1px solid var(--c-border);
+  margin: 0;
+  padding: var(--sp-3) 0;
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.shift-row:last-of-type {
+  border-bottom: 0;
+}
+
+.shift-times {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--sp-2);
+}
+
+@media (max-width: 899.98px) {
+  .shift-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.visit-row-compact {
+  grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+}
+
+.details dd .contact-line {
+  display: flex;
+  margin-top: var(--sp-1);
+}

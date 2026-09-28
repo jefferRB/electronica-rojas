@@ -1,0 +1,22 @@
+{
+  // Debugging without storing credentials: start the task "backend (debug port 5005)",
+  // which loads .env through scripts/start-backend.ps1, then attach with this configuration.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "ElectronicaRojasApplication",
+      "request": "launch",
+      "mainClass": "dev.jeffrojas.electronicarojas.ElectronicaRojasApplication",
+      "projectName": "electronica-rojas-backend"
+    },
+    {
+      "type": "java",
+      "name": "Attach to backend",
+      "request": "attach",
+      "hostName": "127.0.0.1",
+      "port": 5005,
+      "projectName": "electronica-rojas-backend"
+    }
+  ]
+}

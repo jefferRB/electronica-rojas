@@ -1,0 +1,108 @@
+/**
+ * Spanish messages for the stable error codes of the API: `errors[].code` on 400 responses
+ * (Jakarta constraint names or business codes) and `code` on 409 ProblemDetails.
+ */
+
+const FIELD_ERROR_MESSAGES: Record<string, string> = {
+  NotBlank: 'Este campo es obligatorio.',
+  NotNull: 'Este campo es obligatorio.',
+  NotEmpty: 'Este campo es obligatorio.',
+  Size: 'La longitud no es válida.',
+  Pattern: 'El formato no es válido.',
+  Email: 'Ingresa un correo electrónico válido.',
+  Positive: 'Debe ser mayor que cero.',
+  PositiveOrZero: 'No puede ser negativo.',
+  Min: 'El valor es demasiado pequeño.',
+  Max: 'El valor es demasiado grande.',
+  DecimalMin: 'El valor es demasiado pequeño.',
+  DecimalMax: 'El valor es demasiado grande.',
+  Digits: 'El número tiene demasiados dígitos o decimales.',
+  PASSWORD_REQUIRED: 'La contraseña es obligatoria.',
+  PASSWORD_TOO_SHORT: 'La contraseña es demasiado corta.',
+  PASSWORD_TOO_LONG: 'La contraseña es demasiado larga (supera el máximo en bytes).',
+  BRANCHES_REQUIRED: 'Selecciona al menos una sucursal para este rol.',
+  BRANCHES_INVALID: 'Alguna sucursal no existe o está inactiva.',
+  SAME_BRANCH: 'El destino debe ser distinto del origen.',
+  TRANSFER_TYPE_NOT_ALLOWED: 'Las transferencias y los consumos de reparación se registran desde su propia pantalla.',
+  NOT_A_SPARE_PART: 'Solo los productos de tipo repuesto se pueden usar en una reparación.',
+  DATE_RANGE_INVALID: 'La fecha final no puede ser anterior a la inicial.',
+  PHONE_INVALID: 'Ingresa un teléfono válido: 8 dígitos de Costa Rica o un número internacional con +.',
+  CUSTOMER_REQUIRED: 'Selecciona un cliente existente o registra uno nuevo.',
+  REASON_REQUIRED: 'Indica el motivo.',
+  TECHNICIAN_NOT_ELIGIBLE: 'El técnico debe estar activo y asignado a la sucursal.',
+  AssertTrue: 'Debes aceptar para continuar.',
+  BRANCH_INVALID: 'Elige una de las sucursales de la lista.',
+  DATE_IN_PAST: 'La fecha no puede ser anterior a hoy.',
+  DATE_TOO_FAR: 'Esa fecha está más adelante de lo que se puede solicitar.',
+  DATE_TOO_SOON: 'Esa fecha está demasiado cerca; elige un día posterior.',
+  DATE_NOT_ALLOWED: 'Este formulario no recibe fecha preferida.',
+  DAY_NOT_SERVED: 'Ese día no hay visitas; elige otro día de la semana.',
+  WINDOW_NOT_ALLOWED: 'Este formulario no recibe horario preferido.',
+  PROVINCE_NOT_SERVED: 'Por ahora no atendemos esa provincia.',
+  HTML_NOT_ALLOWED: 'Solo texto: sin etiquetas ni los signos < y >.',
+  SLUG_INVALID: 'Usa entre 3 y 60 letras minúsculas, números y guiones simples (sin espacios ni tildes).',
+  SLUG_RESERVED: 'Esa palabra la usa el sistema; elige otra dirección.',
+  DAYS_RANGE_INVALID: 'El máximo de días no puede ser menor que la anticipación mínima.',
+  VISIT_IN_PAST: 'La visita debe programarse en el futuro.',
+  SHIFT_INVALID: 'La jornada debe terminar después de empezar.',
+  BREAK_INVALID: 'El descanso debe tener inicio y fin, dentro de la jornada.',
+  DUPLICATE_DAY: 'Cada día de la semana puede aparecer una sola vez.',
+  CONSENT_TEXT_OUTDATED: 'El texto de consentimiento cambió. Recarga la página y vuelve a leerlo al cliente.',
+  CONSENT_SOURCE_INVALID: 'Indica cómo expresó el cliente su decisión (en la sucursal, por teléfono o por escrito).',
+  EMAIL_REQUIRED_FOR_CONSENT: 'Escribe un correo para recibir avisos por correo.',
+  DAY_AT_OTHER_BRANCH: 'Ese día el técnico trabaja en otra sucursal; lo gestiona esa sucursal.',
+}
+
+const CONFLICT_MESSAGES: Record<string, string> = {
+  DUPLICATE_BRANCH_CODE: 'Ya existe una sucursal con ese código.',
+  DUPLICATE_SKU: 'Ya existe un producto con ese SKU.',
+  PORTAL_DISABLED: 'Por ahora no recibimos solicitudes en línea. Comunícate directamente con el negocio.',
+  DUPLICATE_EMAIL: 'Ya existe una cuenta con ese correo.',
+  STALE_VERSION: 'Otra persona modificó este registro. Recarga la página e inténtalo de nuevo.',
+  LAST_ADMIN: 'Debe quedar al menos un administrador activo.',
+  PRODUCT_INACTIVE: 'El producto está inactivo y no admite nuevos movimientos.',
+  QUANTITY_TOO_LARGE: 'La cantidad resultante supera el máximo permitido.',
+  OPERATION_ID_REUSED: 'Esta operación ya se registró con otros datos. Vuelve a intentarlo desde el formulario.',
+  CONCURRENT_OPERATION: 'Otra operación estaba modificando el mismo registro. Reintenta: no se aplicará dos veces.',
+  DATA_CONFLICT: 'Los datos entran en conflicto con un registro existente.',
+  POSSIBLE_DUPLICATE_CUSTOMER: 'Ya existe un cliente con ese teléfono. Elige uno existente o confirma que es otra persona.',
+  INVALID_TRANSITION: 'Ese cambio de estado no está permitido desde el estado actual. Recarga la orden.',
+  TECHNICIAN_REQUIRED: 'Asigna un técnico antes de continuar.',
+  ORDER_CLOSED: 'La orden ya no admite este cambio en su estado actual.',
+  QUOTE_PENDING_EXISTS: 'La orden ya tiene una cotización esperando la decisión del cliente.',
+  QUOTE_NOT_ALLOWED: 'Solo se puede cotizar durante el diagnóstico o la reparación.',
+  QUOTE_ALREADY_DECIDED: 'La cotización ya fue decidida y no puede cambiarse.',
+  CUSTOMER_ALREADY_LINKED: 'La solicitud ya está asociada a un cliente.',
+  CUSTOMER_NOT_LINKED: 'Asocia la solicitud a un cliente antes de programar la visita.',
+  REQUEST_CLOSED: 'La solicitud ya está cerrada.',
+  REQUEST_COMPLETED: 'La solicitud ya fue atendida.',
+  VISIT_ACTIVE: 'Cancela la visita programada antes de cambiar la sucursal.',
+  VISIT_ALREADY_ACTIVE: 'La solicitud ya tiene una visita programada; reprográmala en lugar de crear otra.',
+  VISIT_ALREADY_STARTED: 'La visita ya empezó; no se puede cancelar.',
+  VISIT_NOT_RESCHEDULABLE: 'La visita solo puede moverse antes de empezar.',
+  VISIT_NOT_TODAY: 'La visita está programada para otro día.',
+  SCHEDULE_CONFLICT: 'El técnico ya tiene una visita confirmada en ese horario. Elige otra hora u otro técnico.',
+  OUTSIDE_WORKING_HOURS: 'El horario queda fuera de la jornada del técnico.',
+  DURING_BREAK: 'El horario coincide con el descanso del técnico.',
+  NO_SHIFT: 'El técnico no trabaja ese día en esta sucursal.',
+  REPAIR_LINK_NOT_ALLOWED: 'Solo una visita completada que requiere taller puede vincularse a una orden.',
+  VISIT_ALREADY_LINKED: 'La visita ya está vinculada a una orden de taller.',
+  ORDER_CUSTOMER_MISMATCH: 'La orden pertenece a otro cliente.',
+  ORDER_ALREADY_LINKED: 'La orden ya está vinculada a otra visita.',
+  PARTS_NOT_ALLOWED: 'Los repuestos se registran mientras la orden está «En reparación».',
+  RETURN_EXCEEDS_CONSUMED: 'No se puede devolver más de lo que sigue registrado como utilizado.',
+  INSUFFICIENT_STOCK: 'No hay existencias suficientes en la sucursal.',
+  EMAIL_REQUIRED: 'Registra primero el correo del cliente para aceptar avisos por correo.',
+  NOTIFICATION_NOT_RETRYABLE: 'Solo se pueden reintentar avisos que fallaron.',
+  RATE_LIMITED: 'Recibimos demasiadas solicitudes. Espera un momento e inténtalo de nuevo.',
+}
+
+/** Spanish text for a field error; falls back to the server message for unknown codes. */
+export function describeFieldError(code: string | undefined, fallback: string): string {
+  return (code && FIELD_ERROR_MESSAGES[code]) || fallback
+}
+
+/** Spanish text for a 409 code, or undefined when the caller should use its own wording. */
+export function describeConflict(code: unknown): string | undefined {
+  return typeof code === 'string' ? CONFLICT_MESSAGES[code] : undefined
+}

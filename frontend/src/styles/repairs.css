@@ -1,0 +1,581 @@
+/* Workshop: order list, order record, reception form and the printable receipt. */
+
+/* ============ Order codes ============ */
+.order-code {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.order-code:hover {
+  text-decoration: underline;
+}
+
+.order-cell {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.order-title {
+  font-size: var(--fs-2xl);
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 767.98px) {
+  .order-title {
+    font-size: var(--fs-xl);
+  }
+
+  .repairs-table .order-cell {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-1) var(--sp-3);
+    width: 100%;
+  }
+
+  .repairs-table .order-code {
+    font-size: var(--fs-base);
+  }
+}
+
+.status-stack {
+  display: inline-grid;
+  justify-items: start;
+  gap: var(--sp-1);
+}
+
+@media (max-width: 767.98px) {
+  .status-stack {
+    justify-items: end;
+  }
+}
+
+.custody-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--c-warn-text);
+  white-space: nowrap;
+}
+
+/* ============ Progress through the workshop cycle ============ */
+.progress {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: var(--sp-4) var(--sp-5);
+  list-style: none;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-xs);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1 0 auto;
+  font-size: var(--fs-sm);
+  color: var(--c-text-2);
+  white-space: nowrap;
+}
+
+.progress-step:not(:last-child)::after {
+  content: '';
+  flex: 1 1 auto;
+  min-width: 1.25rem;
+  height: 2px;
+  margin: 0 var(--sp-3);
+  border-radius: 2px;
+  background: var(--c-border);
+}
+
+.progress-dot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid var(--c-border-strong);
+  background: var(--c-surface);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--c-text-2);
+}
+
+.progress-done .progress-dot {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: var(--c-on-primary);
+}
+
+.progress-done:not(:last-child)::after {
+  background: var(--c-primary);
+}
+
+.progress-current {
+  color: var(--c-text);
+  font-weight: var(--fw-semibold);
+}
+
+.progress-current .progress-dot {
+  border-color: var(--c-primary);
+  color: var(--c-primary-soft-text);
+  background: var(--c-primary-soft);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-primary) 14%, transparent);
+}
+
+.progress-stopped {
+  flex: 0 0 auto;
+  color: var(--c-error-text);
+  font-weight: var(--fw-semibold);
+}
+
+.progress-stopped .progress-dot {
+  border-color: var(--c-error);
+  background: var(--c-error-soft);
+  color: var(--c-error-text);
+}
+
+@media (max-width: 767.98px) {
+  .progress {
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--r-lg);
+  }
+
+  .progress-step:not(.progress-current):not(.progress-stopped) .progress-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .progress-dot {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  /* Short connectors so six steps plus the current label fit a phone screen. */
+  .progress-step:not(:last-child)::after {
+    min-width: 0.5rem;
+    margin: 0 var(--sp-1);
+  }
+}
+
+/* ============ Actions of a record ============ */
+.action-panel {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-surface-2);
+  box-shadow: none;
+}
+
+.action-panel-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+
+.action-separator {
+  width: 1px;
+  align-self: stretch;
+  margin: 0 var(--sp-1);
+  background: var(--c-border-strong);
+}
+
+@media (max-width: 767.98px) {
+  .action-panel .action-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .action-panel .button {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .action-separator {
+    display: none;
+  }
+}
+
+/* ============ Order record ============ */
+.device-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.device-summary > div {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.device-name {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+}
+
+.fact-grid {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+.fact {
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+}
+
+.fact h3 {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+
+.fact p {
+  font-size: var(--fs-sm);
+}
+
+.fact-accent {
+  grid-column: 1 / -1;
+  background: color-mix(in srgb, var(--c-warn-soft) 70%, var(--c-surface));
+  border-color: color-mix(in srgb, var(--c-warn) 25%, var(--c-border));
+}
+
+.fact-accent p {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+}
+
+.person-block {
+  align-items: flex-start;
+}
+
+.person-block .person-text {
+  gap: var(--sp-1);
+}
+
+.contact-line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--c-text-2);
+  overflow-wrap: anywhere;
+}
+
+.contact-line a {
+  font-weight: var(--fw-medium);
+}
+
+.details .cell-sub {
+  display: block;
+  font-weight: var(--fw-regular);
+}
+
+/* ============ Reception ============ */
+.step-card {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.step-number {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--c-primary);
+  color: var(--c-on-primary);
+  font-weight: var(--fw-bold);
+}
+
+.step-header h2 {
+  margin: 0;
+}
+
+.step-header p {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--c-text-2);
+}
+
+/* The customer picker is the first decision at the counter: it gets its own highlighted zone. */
+.picker-zone {
+  padding: var(--sp-5);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, var(--c-primary-soft), color-mix(in srgb, var(--c-primary-soft) 35%, var(--c-surface)));
+  border: 1px solid color-mix(in srgb, var(--c-primary) 20%, var(--c-border));
+}
+
+.picker-zone .form-grid {
+  margin-bottom: var(--sp-2);
+}
+
+@media (max-width: 767.98px) {
+  .picker-zone {
+    padding: var(--sp-4);
+  }
+}
+
+.customer-picker {
+  position: relative;
+}
+
+.customer-options {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: var(--z-dropdown);
+  margin-top: calc(var(--sp-2) * -1);
+}
+
+.customer-options li {
+  display: grid;
+  gap: 0.125rem;
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+
+.customer-options li.active,
+.customer-options li:hover {
+  background: var(--c-primary-soft);
+}
+
+.form-section-title {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+
+.submit-bar {
+  position: sticky;
+  bottom: var(--sp-3);
+  z-index: var(--z-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--c-surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--sh-lg);
+}
+
+.submit-bar .form-actions {
+  margin: 0;
+}
+
+.submit-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--c-text-2);
+}
+
+@media (max-width: 767.98px) {
+  /* Stays above the phone bottom bar. */
+  .submit-bar {
+    bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  }
+
+  .submit-bar .form-actions {
+    width: 100%;
+  }
+}
+
+/* ============ Printable reception receipt ============ */
+.receipt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.receipt {
+  width: 100%;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: var(--sp-8);
+  background: #fff;
+  color: #111c2e;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-md);
+}
+
+.receipt-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-5);
+  border-bottom: 2px solid #111c2e;
+}
+
+.receipt-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.receipt-brand strong {
+  display: block;
+  font-size: var(--fs-lg);
+}
+
+.receipt-code {
+  text-align: right;
+}
+
+.receipt-code .mono {
+  display: block;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+}
+
+.receipt-section {
+  padding: var(--sp-5) 0;
+  border-bottom: 1px solid #d5dce6;
+}
+
+.receipt-section h2 {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3d4a5c;
+}
+
+.receipt-grid {
+  display: grid;
+  gap: var(--sp-3) var(--sp-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.receipt-grid dt {
+  font-size: var(--fs-xs);
+  color: #53627a;
+}
+
+.receipt-grid dd {
+  margin: 0;
+  font-weight: var(--fw-medium);
+  overflow-wrap: break-word;
+}
+
+.receipt-signatures {
+  display: grid;
+  gap: var(--sp-8);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  padding-top: var(--sp-12);
+}
+
+.receipt-signatures div {
+  padding-top: var(--sp-2);
+  border-top: 1px solid #111c2e;
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.receipt-foot {
+  margin: var(--sp-6) 0 0;
+  font-size: var(--fs-xs);
+  color: #53627a;
+}
+
+@media (max-width: 767.98px) {
+  .receipt {
+    padding: var(--sp-5);
+  }
+
+  .receipt-code {
+    text-align: left;
+  }
+}
+
+@media print {
+  @page {
+    size: letter;
+    margin: 14mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .app-header,
+  .bottom-nav,
+  .skip-link,
+  .no-print,
+  vite-error-overlay {
+    display: none !important;
+  }
+
+  .app-main {
+    max-width: none;
+    padding: 0 !important;
+  }
+
+  .page {
+    animation: none;
+  }
+
+  .receipt {
+    max-width: none;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .receipt-section {
+    break-inside: avoid;
+  }
+}

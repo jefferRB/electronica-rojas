@@ -1,0 +1,388 @@
+/*
+ * Module surface (docs/design-system.md §5): one large surface per module. The header is its first
+ * band; navigation, filters, operation forms, content and pagination follow as full-bleed bands
+ * separated by hairlines. It builds on `.card.panel` (components.css), which already lays out the
+ * bands; this sheet adds the header band, the operation band and the module rhythm.
+ */
+.card.module-surface {
+  --panel-x: var(--sp-8);
+  border-radius: var(--r-2xl);
+}
+
+/* Brand edge: a hairline of the brand gradient marks the module surface (not decorative cards). */
+.module-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--g-brand-mark);
+  pointer-events: none;
+}
+
+/* ---- Header band: label, title, description, context; actions on the title line ---- */
+.module-surface > .page-header {
+  align-items: flex-start;
+  padding: var(--sp-8) var(--panel-x) var(--sp-6);
+  border-bottom: 1px solid var(--c-border);
+}
+
+/* The eyebrow sits above the title, so the actions drop to the title line. */
+.module-surface > .page-header:has(.eyebrow) > .page-actions {
+  padding-top: var(--sp-6);
+}
+
+.module-surface > .page-header .page-lede {
+  font-size: var(--fs-sm);
+  max-width: 44rem;
+}
+
+/* Context of the module (branch, scope): quiet chips under the description. */
+.module-surface > .page-header .page-header-meta .chip {
+  background: var(--c-surface-2);
+}
+
+/* A module without bands below the header (loading) keeps its footer line out. */
+.module-surface > .page-header:last-child {
+  border-bottom: 0;
+}
+
+/* ---- Navigation band (module sections or status tabs) ---- */
+.module-surface > .tabs.tabs-line {
+  padding-left: calc(var(--panel-x) - var(--sp-3));
+  padding-right: calc(var(--panel-x) - var(--sp-3));
+}
+
+/* Module sections (they change the view): same band, taller targets with icons. */
+.module-surface > .tabs.tabs-line.section-tabs {
+  margin-top: 0;
+  border-bottom-color: var(--c-border);
+}
+
+.module-surface > .tabs.tabs-line.section-tabs a {
+  min-height: 3.25rem;
+}
+
+/* ---- View heading band (the active view of a module with sections) ---- */
+.module-surface > .card-header {
+  padding: var(--sp-5) var(--panel-x);
+}
+
+.module-surface > .card-header h2 {
+  font-size: var(--fs-md);
+}
+
+/* ---- Operation band: a form opened from an action unfolds inside the module ---- */
+.module-surface > .card-highlight,
+.module-surface > .operation-slot > .card-highlight {
+  margin: 0;
+  padding: var(--sp-6) var(--panel-x);
+  border: 0;
+  border-bottom: 1px solid var(--c-border-strong);
+  border-radius: 0;
+  background: var(--c-surface-2);
+  box-shadow: inset 3px 0 0 var(--c-primary);
+}
+
+.module-surface :is(.card-highlight > h2:first-child, .card-highlight > .card-title-row h2) {
+  font-size: var(--fs-lg);
+}
+
+/* Sections of a long form read as one document: hairlines, not cards. */
+.module-surface .card-highlight .subsection {
+  border-top-color: var(--c-border-strong);
+}
+
+/* The list that follows an open form starts a new chapter of the module. */
+.module-surface > :is(.card-highlight, .operation-slot) + .card-header {
+  border-top: 0;
+}
+
+/* Result messages of an operation sit right under the header, as part of the module. */
+.module-surface > .page-header + .alert {
+  margin-top: var(--sp-5);
+}
+
+/* ---- Document band: sections of a record or a form directly on the surface ---- */
+.module-section {
+  padding: var(--sp-6) var(--panel-x);
+  border-bottom: 1px solid var(--c-border);
+  min-width: 0;
+}
+
+.module-section:last-child {
+  border-bottom: 0;
+}
+
+.module-section-tonal {
+  background: var(--c-surface-2);
+}
+
+.module-section-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0 0 var(--sp-4);
+}
+
+.module-section-title h2,
+.module-section-title h3 {
+  margin: 0;
+  font-size: var(--fs-md);
+}
+
+/* Two columns of sections on wide screens, separated by a vertical hairline. */
+.module-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.module-columns > .module-section {
+  border-bottom: 0;
+}
+
+.module-columns > .module-section + .module-section {
+  border-top: 1px solid var(--c-border);
+}
+
+@media (min-width: 1100px) {
+  .module-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .module-columns > .module-section + .module-section {
+    border-top: 0;
+    border-left: 1px solid var(--c-border);
+  }
+}
+
+/* ---- Rhythm by width ---- */
+@media (max-width: 1279.98px) {
+  .card.module-surface {
+    --panel-x: var(--sp-6);
+  }
+
+  .module-surface > .page-header {
+    padding-top: var(--sp-6);
+    padding-bottom: var(--sp-5);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .card.module-surface {
+    --panel-x: var(--sp-4);
+    border-radius: var(--r-xl);
+  }
+
+  /* Header stacks: label, title, description, then actions sharing the width. */
+  .module-surface > .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-4);
+    padding: var(--sp-5) var(--panel-x) var(--sp-4);
+  }
+
+  /* In a column the 22rem basis of the title block would become its height. */
+  .module-surface > .page-header > .page-header-main {
+    flex: none;
+  }
+
+  .module-surface > .page-header:has(.eyebrow) > .page-actions {
+    padding-top: 0;
+  }
+
+  .module-surface > .page-header > .page-actions > .button {
+    flex: 1 1 auto;
+  }
+
+  /* The primary action comes first under the thumb; secondary ones follow. */
+  .module-surface > .page-header > .page-actions > .button-primary {
+    order: -1;
+    flex-basis: 100%;
+  }
+
+  .module-surface > .page-header .page-header-meta .context-chip {
+    display: none;
+  }
+
+  .module-surface > .page-header .page-header-meta:not(:has(> :not(.context-chip))) {
+    display: none;
+  }
+
+  .module-surface > .card-highlight,
+  .module-surface > .operation-slot > .card-highlight,
+  .module-section {
+    padding-top: var(--sp-5);
+    padding-bottom: var(--sp-5);
+  }
+
+  /* List items: primary line with the status on the right, then the key facts in two columns. */
+  .panel > .table-scroll:not(.keep-columns) .data-table tbody > tr:has(> td.cell-status) > td.cell-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .panel > .table-scroll:not(.keep-columns) .data-table tbody > tr > td.cell-status {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: end;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .panel > .table-scroll:not(.keep-columns) .data-table td.cell-status::before {
+    display: none;
+  }
+
+  .panel > .table-scroll:not(.keep-columns) .data-table td.cell-status .status-stack {
+    justify-items: end;
+  }
+}
+
+/* ---- Filters inside a surface: a lone filter keeps a field width instead of stretching ---- */
+.panel > .filter-bar .filter-extra {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+}
+
+/* ---- Steps band (transfers): progress of the flow right under the header ---- */
+.module-surface > .card-steps {
+  margin: 0;
+  padding: var(--sp-3) var(--panel-x);
+  border-bottom: 1px solid var(--c-border);
+  background: var(--c-surface-2);
+}
+
+/* ---- Development inbox (notifications): a simulation, marked apart from real data ---- */
+.module-section.dev-inbox {
+  box-shadow: inset 3px 0 0 var(--c-warn);
+}
+
+.dev-inbox > .alert {
+  margin-bottom: var(--sp-5);
+}
+
+/* Repeated items of a section (a technician's week, a day of visits) separated by hairlines. */
+.module-section > .subsection-tight + .subsection-tight {
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-border);
+}
+
+/* Audit: the event description gets the width; who and when are narrow metadata. */
+@media (min-width: 768px) {
+  .audit-table th:first-child {
+    width: 64%;
+  }
+}
+
+/* ============ Records inside a module surface (repair order, request, customer, visit) ============ */
+/* Progress and available actions: two bands under the header. */
+.module-surface > .record-summary {
+  border-bottom: 1px solid var(--c-border);
+}
+
+.module-surface > .record-summary > .progress,
+.module-surface > .record-summary > .action-panel {
+  padding-left: var(--panel-x);
+  padding-right: var(--panel-x);
+}
+
+.module-surface > .action-panel {
+  margin: 0;
+  padding: var(--sp-4) var(--panel-x) var(--sp-5);
+  border: 0;
+  border-bottom: 1px solid var(--c-border);
+  border-radius: 0;
+}
+
+/*
+ * Body: main sections and a side column on a tonal ground, separated by hairlines instead of a
+ * stack of cards. Elements that benefit from elevation (facts, totals, quotes) keep their own box.
+ */
+.module-surface > .split {
+  gap: 0;
+  align-items: stretch;
+}
+
+.module-surface > .split > .stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.module-surface > .split > aside {
+  background: var(--c-surface-2);
+  border-top: 1px solid var(--c-border);
+}
+
+.module-surface > .split > .stack-lg > .card {
+  margin: 0;
+  padding: var(--sp-6) var(--panel-x);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+
+/* Declared after the flattening rule (same specificity): the hairline between sections. */
+.module-surface > .split > .stack-lg > :not(:first-child) {
+  border-top: 1px solid var(--c-border);
+}
+
+/* A list section (history with pagination) lays out its own bands, aligned with the module. */
+.module-surface > .split > .stack-lg > .card.panel {
+  --panel-x: inherit;
+  padding: 0;
+}
+
+.module-surface > .split > .stack-lg > .card > .card-header h2 {
+  font-size: var(--fs-md);
+}
+
+.module-surface > .split > .stack-lg > .card > .card-header .card-heading-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media (min-width: 1100px) {
+  .module-surface > .split {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 23rem);
+  }
+
+  .module-surface > .split > aside {
+    border-top: 0;
+    border-left: 1px solid var(--c-border);
+  }
+}
+
+/* ---- Long configuration form (public portal): one document of sections inside the module ---- */
+.module-surface .portal-section {
+  padding: var(--sp-6) var(--panel-x);
+}
+
+.module-surface .portal-status {
+  border-radius: 0;
+}
+
+.module-surface .portal-settings > .alert {
+  margin-left: var(--panel-x);
+  margin-right: var(--panel-x);
+}
+
+/* ---- Numbered form steps (reception, phone requests): sections of one document ---- */
+.module-form {
+  display: grid;
+  min-width: 0;
+}
+
+.module-form > .alert {
+  margin: var(--sp-4) var(--panel-x) 0;
+}
+
+/* The submit bar stays sticky while filling the form; at rest it closes the document. */
+.module-form > .submit-bar {
+  margin: var(--sp-4);
+}

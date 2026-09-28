@@ -1,0 +1,352 @@
+/* Inventory and transfers: product cells, stock levels, movements and the transfer steps. */
+
+.product-cell {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.product-name {
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+
+.product-name:hover {
+  text-decoration: underline;
+}
+
+.product-hero {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.product-hero h2 {
+  margin: 0;
+}
+
+.product-hero > div {
+  min-width: 0;
+}
+
+.product-hero .mono {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+/* ---- Stock levels: a rule on the row, a colored figure and the badge text ---- */
+.qty {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.5rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.stock-out_of_stock .qty {
+  background: var(--c-error-soft);
+  color: var(--c-error-text);
+}
+
+.stock-low .qty {
+  background: var(--c-warn-soft);
+  color: var(--c-warn-text);
+}
+
+.stock-row.stock-out_of_stock td:first-child,
+.stock-row.stock-low td:first-child {
+  box-shadow: inset 3px 0 0 var(--row-rule);
+}
+
+.stock-row.stock-out_of_stock {
+  --row-rule: var(--c-error);
+}
+
+.stock-row.stock-low {
+  --row-rule: var(--c-warn);
+}
+
+@media (max-width: 767.98px) {
+  .stock-row.stock-out_of_stock td:first-child,
+  .stock-row.stock-low td:first-child {
+    box-shadow: none;
+  }
+
+  .data-table tr.stock-row.stock-out_of_stock,
+  .data-table tr.stock-row.stock-low {
+    border-left: 4px solid var(--row-rule);
+  }
+}
+
+/* Consolidated view: each branch cell shows its own level. */
+.stock-cell .cell-link {
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.stock-cell.stock-out_of_stock .cell-link {
+  color: var(--c-error-text);
+}
+
+.stock-cell.stock-low .cell-link {
+  color: var(--c-warn-text);
+}
+
+.overview-table td.numeric {
+  vertical-align: top;
+}
+
+.overview-table td.numeric .badge {
+  display: flex;
+  width: fit-content;
+  margin: 0.25rem 0 0 auto;
+  font-size: var(--fs-2xs);
+}
+
+@media (max-width: 767.98px) {
+  .overview-table td.numeric {
+    align-items: center;
+  }
+
+  .overview-table td.numeric .badge {
+    margin: 0 0 0 var(--sp-2);
+  }
+}
+
+/* Movement deltas. */
+.delta {
+  display: inline-block;
+  min-width: 2.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--r-pill);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.delta-in {
+  background: var(--c-ok-soft);
+  color: var(--c-ok-text);
+}
+
+.delta-out {
+  background: var(--c-error-soft);
+  color: var(--c-error-text);
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.inline-form .field {
+  max-width: 7rem;
+}
+
+@media (max-width: 767.98px) {
+  .inline-form .field {
+    max-width: none;
+    flex: 1;
+  }
+}
+
+/* ============ Transfers: select → review → confirm ============ */
+.stepper {
+  display: flex;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.stepper li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--c-text-2);
+}
+
+.stepper li::before {
+  counter-increment: step;
+  content: counter(step);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--c-border-strong);
+  font-size: var(--fs-xs);
+}
+
+.stepper li[aria-current='step'] {
+  border-color: color-mix(in srgb, var(--c-primary) 45%, var(--c-border));
+  background: var(--c-primary-soft);
+  color: var(--c-primary-soft-text);
+}
+
+.stepper li[aria-current='step']::before {
+  border-color: var(--c-primary);
+  background: var(--c-primary);
+  color: var(--c-on-primary);
+}
+
+.stepper li.step-done {
+  color: var(--c-text);
+}
+
+.stepper li.step-done::before {
+  content: '✓';
+  border-color: var(--c-ok);
+  background: var(--c-ok);
+  color: #fff;
+}
+
+@media (max-width: 599.98px) {
+  .stepper li {
+    padding: var(--sp-2) var(--sp-3);
+  }
+
+  .stepper li:not([aria-current='step']) .step-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .stepper li:not([aria-current='step']) {
+    flex: none;
+  }
+
+  .stepper {
+    position: relative;
+  }
+}
+
+/* Steps as the header band of the working card (transfers). */
+.card > .card-steps:first-child {
+  margin: calc(var(--sp-6) * -1) calc(var(--sp-6) * -1) var(--sp-6);
+  padding: var(--sp-3) var(--sp-6);
+  border-bottom: 1px solid var(--c-border);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: var(--c-surface-2);
+}
+
+.card-steps li {
+  padding: var(--sp-2) var(--sp-3);
+  border-color: transparent;
+  background: none;
+}
+
+.card-steps li[aria-current='step'] {
+  background: var(--c-surface);
+  box-shadow: var(--sh-xs);
+}
+
+@media (max-width: 767.98px) {
+  .card > .card-steps:first-child {
+    margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1) var(--sp-5);
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+}
+
+.route-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: var(--sp-3);
+}
+
+.route-end {
+  display: grid;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-2);
+  min-width: 0;
+}
+
+.route-end .eyebrow {
+  margin: 0 !important;
+}
+
+.route-end strong {
+  font-size: var(--fs-md);
+}
+
+.route-balance {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--c-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.route-balance b {
+  font-size: var(--fs-lg);
+  color: var(--c-text);
+}
+
+.route-arrow {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-2);
+  color: var(--c-primary-soft-text);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.route-arrow .qty-move {
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-soft);
+}
+
+@media (max-width: 599.98px) {
+  .route-card {
+    grid-template-columns: 1fr;
+  }
+
+  .route-arrow {
+    grid-auto-flow: column;
+    padding: 0;
+  }
+
+  .route-arrow .icon {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .stock-cell .cell-link {
+    min-height: var(--h-control);
+    min-width: var(--h-control);
+    justify-content: center;
+  }
+}

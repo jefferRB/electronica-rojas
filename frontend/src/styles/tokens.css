@@ -1,0 +1,192 @@
+/*
+ * Grafito Eléctrico (Electrónica Rojas design system): design tokens (docs/design-system.md).
+ * Components only read these variables. A palette is a `data-theme` value on <html> that overrides
+ * the brand and navigation tokens; neutrals and status colors are shared so states read the same
+ * in every palette. `npm run check:contrast` verifies the text/background pairs of each palette.
+ */
+:root {
+  /* ---- Neutrals ---- */
+  --c-bg: #f4f7fb;
+  --c-surface: #ffffff;
+  --c-surface-2: #f8fafd;
+  --c-surface-3: #eef2f8;
+  --c-text: #111c2e;
+  --c-text-2: #61718a;
+  --c-text-3: #7a889e;
+  --c-border: #e1e8f2;
+  --c-border-strong: #cfd9e6;
+  /* Form control outline: 3:1 against white (WCAG 1.4.11). */
+  --c-border-control: #8492a6;
+
+  /* ---- Brand (palette "electric", the default) ---- */
+  --c-primary: #2563eb;
+  --c-primary-hover: #1d4ed8;
+  --c-primary-active: #1e40af;
+  --c-primary-soft: #eaf1fe;
+  --c-primary-soft-text: #1d4ed8;
+  --c-on-primary: #ffffff;
+  --c-accent: #0f766e;
+  --c-accent-soft: #e6f4f2;
+  --c-accent-soft-text: #0f766e;
+
+  /* ---- Navigation (dark floating bar) ---- */
+  --c-nav: #19283e;
+  --c-nav-raised: #22354f;
+  --c-nav-hover: rgb(255 255 255 / 0.07);
+  --c-nav-active: rgb(255 255 255 / 0.13);
+  --c-nav-text: #e6ecf5;
+  --c-nav-muted: #a9b7cb;
+  --c-nav-border: rgb(255 255 255 / 0.1);
+  --c-nav-focus: #93c5fd;
+  --c-nav-indicator: #60a5fa;
+
+  /* Highlighted headers (dashboard welcome, receipt): the only gradient areas. */
+  --g-hero: linear-gradient(120deg, #19283e 0%, #1c3558 55%, #0b3a47 100%);
+  --g-brand-mark: linear-gradient(135deg, #2563eb 0%, #0f766e 100%);
+
+  /* ---- Status (text color always passes 4.5:1 on its soft background) ---- */
+  --c-ok: #15803d;
+  --c-ok-text: #146c36;
+  --c-ok-soft: #e8f6ee;
+  --c-warn: #b76c10;
+  --c-warn-text: #92560a;
+  --c-warn-soft: #fdf3e3;
+  --c-error: #c83446;
+  --c-error-text: #b42336;
+  --c-error-soft: #fdecee;
+  --c-info: var(--c-primary);
+  --c-info-text: var(--c-primary-soft-text);
+  --c-info-soft: var(--c-primary-soft);
+  --c-muted-soft: #eef1f5;
+  --c-muted-text: #53627a;
+
+  /* Focus ring on light surfaces. */
+  --c-focus: var(--c-primary);
+
+  /* ---- Typography ---- */
+  --font-sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Roboto, Arial,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --fs-2xs: 0.6875rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 1.875rem;
+  --fs-3xl: 2.25rem;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --lh-tight: 1.2;
+  --lh-snug: 1.35;
+  --lh-base: 1.55;
+
+  /* ---- Spacing (4 px rhythm) ---- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --gutter: 1rem;
+
+  /* ---- Shape ---- */
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+  --r-2xl: 22px;
+  --r-pill: 999px;
+
+  /* ---- Elevation (discreet) ---- */
+  --sh-xs: 0 1px 2px rgb(17 28 46 / 0.05);
+  --sh-sm: 0 1px 2px rgb(17 28 46 / 0.04), 0 2px 8px -2px rgb(17 28 46 / 0.06);
+  /* Cards and panels: a hairline of contact plus a soft, wide falloff so they sit on the page. */
+  --sh-card: 0 1px 2px rgb(17 28 46 / 0.04), 0 6px 20px -8px rgb(17 28 46 / 0.1);
+  --sh-md: 0 4px 12px -2px rgb(17 28 46 / 0.1), 0 2px 4px -2px rgb(17 28 46 / 0.06);
+  --sh-lg: 0 16px 40px -12px rgb(17 28 46 / 0.28), 0 4px 12px -4px rgb(17 28 46 / 0.12);
+  --sh-focus: 0 0 0 3px color-mix(in srgb, var(--c-primary) 22%, transparent);
+
+  /* ---- Controls ---- */
+  --h-control: 2.5rem;
+  --h-control-sm: 2rem;
+  --h-control-lg: 3rem;
+
+  /* ---- Layout widths ---- */
+  --w-page: 88rem;
+  --w-content: 76rem;
+  --w-form: 60rem;
+  --w-narrow: 44rem;
+
+  /* ---- Layers ---- */
+  --z-sticky: 50;
+  --z-nav: 100;
+  --z-dropdown: 200;
+  --z-overlay: 300;
+  --z-drawer: 310;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 280ms;
+}
+
+/* Touch-first sizes on small screens: 44 px targets (WCAG 2.5.8 + platform guidance). */
+@media (max-width: 767.98px) {
+  :root {
+    --h-control: 2.75rem;
+    --h-control-sm: 2.75rem;
+    --gutter: 1rem;
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --h-control: 2.75rem;
+    --h-control-sm: 2.75rem;
+  }
+}
+
+/* ---- Alternative palette 1: professional petroleum (teal and graphite) ---- */
+:root[data-theme='petroleum'] {
+  --c-primary: #0f766e;
+  --c-primary-hover: #0d645d;
+  --c-primary-active: #0b5550;
+  --c-primary-soft: #e3f3f1;
+  --c-primary-soft-text: #0b5f58;
+  --c-accent: #475569;
+  --c-accent-soft: #eef1f5;
+  --c-accent-soft-text: #3d4a5c;
+  --c-nav: #1b2a2f;
+  --c-nav-raised: #253a40;
+  --c-nav-focus: #5eead4;
+  --c-nav-indicator: #2dd4bf;
+  --g-hero: linear-gradient(120deg, #1b2a2f 0%, #1d3a3d 55%, #0d423e 100%);
+  --g-brand-mark: linear-gradient(135deg, #0f766e 0%, #475569 100%);
+}
+
+/* ---- Alternative palette 2: technology indigo (indigo and cyan) ---- */
+:root[data-theme='indigo'] {
+  --c-primary: #4f46e5;
+  --c-primary-hover: #4338ca;
+  --c-primary-active: #3730a3;
+  --c-primary-soft: #eef0ff;
+  --c-primary-soft-text: #4338ca;
+  --c-accent: #0e7490;
+  --c-accent-soft: #e4f5f9;
+  --c-accent-soft-text: #0e6a84;
+  --c-nav: #1c1f3f;
+  --c-nav-raised: #282c56;
+  --c-nav-focus: #a5b4fc;
+  --c-nav-indicator: #a5b4fc;
+  --g-hero: linear-gradient(120deg, #1c1f3f 0%, #23265a 55%, #0a394a 100%);
+  --g-brand-mark: linear-gradient(135deg, #4f46e5 0%, #0891b2 100%);
+}

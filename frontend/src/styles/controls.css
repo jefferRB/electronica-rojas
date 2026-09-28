@@ -1,0 +1,267 @@
+/*
+ * Shared form controls added with the portal and pricing (ER-DS-001 §4): switch, prefixed input,
+ * toggle chips and a small inline "add" row. Tokens only.
+ */
+
+/* ============ Switch (native checkbox, role="switch") ============ */
+.switch-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-2) 0;
+}
+
+.switch-text {
+  min-width: 0;
+}
+
+.switch-label {
+  display: block;
+  font-weight: var(--fw-semibold);
+  color: var(--c-text);
+  cursor: pointer;
+}
+
+.switch-text .field-hint {
+  margin: var(--sp-1) 0 0;
+}
+
+.switch-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+  min-height: var(--h-control);
+}
+
+.switch-state {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--c-text-2);
+}
+
+.switch-state.is-on {
+  color: var(--c-ok-text);
+}
+
+.switch-row input.switch[type='checkbox'] {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  /* Off: the control border color (3:1 against the surface, WCAG 1.4.11). */
+  background: var(--c-border-control);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.switch-row input.switch[type='checkbox']::before {
+  content: '';
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--c-surface);
+  box-shadow: var(--sh-xs);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.switch-row input.switch[type='checkbox']:checked {
+  background: var(--c-primary);
+}
+
+.switch-row input.switch[type='checkbox']:checked::before {
+  transform: translateX(1.25rem);
+}
+
+.switch-row input.switch[type='checkbox']:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 767.98px), (pointer: coarse) {
+  .switch-control {
+    min-height: 2.75rem;
+  }
+
+  .switch-row input.switch[type='checkbox'] {
+    width: 3.25rem;
+    height: 1.75rem;
+  }
+
+  .switch-row input.switch[type='checkbox']::before {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  .switch-row input.switch[type='checkbox']:checked::before {
+    transform: translateX(1.5rem);
+  }
+}
+
+/* ============ Input with a fixed prefix (₡, /solicitar/) ============ */
+.input-prefix {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.input-prefix > span {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding: 0 0.75rem;
+  border: 1px solid var(--c-border-control);
+  border-right: 0;
+  border-radius: var(--r-md) 0 0 var(--r-md);
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+.field .input-prefix input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* ============ Toggle chips (checkboxes shown as pills) ============ */
+.toggle-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+
+.toggle-chip {
+  position: relative;
+  display: inline-flex;
+}
+
+.toggle-chip input[type='checkbox'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.toggle-chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: var(--h-control-sm);
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+/* Selected: a check mark, not only a color. */
+.toggle-chip input:checked + span {
+  border-color: color-mix(in srgb, var(--c-primary) 45%, var(--c-border));
+  background: var(--c-primary-soft);
+  color: var(--c-primary-soft-text);
+}
+
+.toggle-chip input:checked + span::before {
+  content: '✓';
+  font-weight: var(--fw-bold);
+}
+
+.toggle-chip input:focus-visible + span {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+.toggle-chip:hover span {
+  border-color: var(--c-text-2);
+}
+
+/* ============ Removable chips and inline add ============ */
+.removable-chip {
+  padding-right: 0.25rem;
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+}
+
+.chip-remove {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--c-text-2);
+  cursor: pointer;
+}
+
+.chip-remove:hover {
+  background: var(--c-error-soft);
+  color: var(--c-error-text);
+}
+
+.inline-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--sp-2) var(--sp-3);
+}
+
+.inline-add .field {
+  flex: 1 1 16rem;
+}
+
+/* Aligns the button with the input, below the label. */
+.inline-add > .button {
+  margin-top: 1.625rem;
+}
+
+/* A read-only value shown where an editable field would be. */
+.static-value {
+  margin: 0;
+  min-height: var(--h-control);
+  display: flex;
+  align-items: center;
+  font-weight: var(--fw-semibold);
+}
+
+.field-hint.block {
+  display: block;
+  margin-top: var(--sp-1);
+}
+
+@media (max-width: 479.98px) {
+  .inline-add > .button {
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+/* Fields revealed by a switch sit just below it. */
+.switch-row + .form-grid {
+  margin-top: var(--sp-2);
+}
